@@ -56,7 +56,7 @@ public class Utils {
     public static final ResourceLocation ADVANCEMENT_OOPS = ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "divine/oops");
     public static void loadHatInformation() {
         CompletableFuture.supplyAsync(() -> {
-            String urlString = "https://raw.githubusercontent.com/DivineRPG/DivineRPG-Assets/main/hats.json";
+            String urlString = "https://raw.githubusercontent.com/vorinvyd/DivineRPG-Assets/main/hats.json";
             try {
 				HttpURLConnection con = (HttpURLConnection) new URL(urlString).openConnection();
                 con.setConnectTimeout(1000);
