@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "crafting_shaped",
   "category": "equipment",
   "pattern": [
     "OBO",
@@ -8,10 +8,10 @@
   ],
   "key": {
     "B": {
-      "item": "divinerpg:bedrock_chunk"
+      "tag": "divinerpg:chunks/bedrock"
     },
     "O": {
-      "tag": "minecraft:diamond_ores"
+      "tag": "c:ores/diamond"
     }
   },
   "result": {

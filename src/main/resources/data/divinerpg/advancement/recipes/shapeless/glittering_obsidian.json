@@ -1,42 +1,31 @@
 {
-  "parent": "minecraft:recipes/root",
+  "parent": "recipes/root",
   "criteria": {
     "has_skin": {
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:kraken_skin"
-            ]
+            "items": "#divinerpg:skin/kraken"
           }
         ]
-      },
-      "trigger": "minecraft:inventory_changed"
+      }
     },
     "has_obsidian": {
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:obsidian"
-            ]
+            "items": "#c:obsidians/normal"
           }
         ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "divinerpg:shapeless/glittering_obsidian"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+      }
     }
   },
   "requirements": [
     [
       "has_skin",
-      "has_obsidian",
-      "has_the_recipe"
+      "has_obsidian"
     ]
   ],
   "rewards": {

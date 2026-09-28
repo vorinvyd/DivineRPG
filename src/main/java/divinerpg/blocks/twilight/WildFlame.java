@@ -1,5 +1,6 @@
 package divinerpg.blocks.twilight;
 
+import divinerpg.blocks.vanilla.Fire;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.*;
 import net.minecraft.world.entity.*;
@@ -9,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import static net.minecraft.sounds.SoundEvents.AXE_STRIP;
 import static net.minecraft.sounds.SoundSource.BLOCKS;
 
-public class WildFlame extends TwilightFire {
+public class WildFlame extends Fire {
     public WildFlame() {super(4);}
     @Override protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if(entity instanceof LivingEntity e && !e.hasEffect(MobEffects.DAMAGE_RESISTANCE)) {

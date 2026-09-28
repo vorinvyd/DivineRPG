@@ -1,15 +1,29 @@
 {
-  "result": {
-    "id": "divinerpg:green_diamond_chunk"
-  },
+  "type": "crafting_shapeless",
+  "group": "colored_diamond_chunk",
   "ingredients": [
     {
-      "item": "divinerpg:arlemite_ingot"
+      "tag": "divinerpg:ingots/arlemite"
     },
-    {
-      "item": "minecraft:diamond"
-    }
+    [
+      {
+        "tag": "divinerpg:no_itself/diamond_no_chunks"
+      },
+      {
+        "item": "divinerpg:red_diamond_chunk"
+      },
+      {
+        "item": "divinerpg:yellow_diamond_chunk"
+      },
+      {
+        "item": "divinerpg:blue_diamond_chunk"
+      },
+      {
+        "item": "divinerpg:gray_diamond_chunk"
+      }
+    ]
   ],
-  "type": "minecraft:crafting_shapeless",
-  "group": "colored_diamond_chunk"
+  "result": {
+    "id": "divinerpg:green_diamond_chunk"
+  }
 }

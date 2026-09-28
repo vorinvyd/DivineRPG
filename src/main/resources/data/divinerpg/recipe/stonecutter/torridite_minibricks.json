@@ -1,9 +1,9 @@
 {
-  "type": "minecraft:stonecutting",
+  "type": "stonecutting",
   "ingredient": {
     "item": "divinerpg:torridite_bricks"
   },
-  "result":  {
+  "result": {
     "id": "divinerpg:torridite_minibricks"
   }
 }

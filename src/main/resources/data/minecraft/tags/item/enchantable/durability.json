@@ -1,5 +1,14 @@
 {
   "values": [
+    "#divinerpg:tools/shickaxe",
+    "divinerpg:terran_shifter",
+    "#divinerpg:tools/dagger",
+    "#divinerpg:tools/knife",
+    "#divinerpg:tools/spear",
+    "#divinerpg:tools/claw",
+    "#divinerpg:tools/hammer",
+    "#divinerpg:tools/maul",
+    "#divinerpg:tools/anchor",
     "#divinerpg:tools/shield",
     "#divinerpg:tools/serenade",
     "#divinerpg:tools/bow",
@@ -12,8 +21,12 @@
     "divinerpg:captains_sparkler",
     "divinerpg:la_vekor",
     "divinerpg:firefly",
+    "divinerpg:meriks_missile",
     "divinerpg:teleportation_crystal",
     "divinerpg:teleportation_star",
     "divinerpg:jungle_hook"
+  ],
+  "remove": [
+    "#divinerpg:tools/unbreakable"
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "type": "smelting",
+  "category": "blocks",
+  "group": "dirt",
+  "ingredient": {
+    "item": "divinerpg:frozen_dirt"
+  },
+  "result": {
+    "id": "dirt"
+  },
+  "experience": 0.1
+}

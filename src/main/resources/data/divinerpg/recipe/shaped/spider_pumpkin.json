@@ -1,21 +1,29 @@
 {
-  "result": {
-    "id": "divinerpg:spider_pumpkin"
-  },
-  "pattern": [
-    "MMM",
-    "MPM",
-    "MMM"
-  ],
-  "type": "minecraft:crafting_shaped",
+  "type": "crafting_shaped",
   "category": "building",
   "group": "mob_pumpkin",
+  "pattern": [
+    "SSS",
+    "SPS",
+    "ESE"
+  ],
   "key": {
-    "P": {
-      "item": "minecraft:pumpkin"
+    "P": [
+      {
+        "tag": "c:pumpkins/normal"
+      },
+      {
+        "tag": "c:pumpkins/carved"
+      }
+    ],
+    "S": {
+      "item": "string"
     },
-    "M": {
-      "item": "minecraft:string"
+    "E": {
+      "item": "spider_eye"
     }
+  },
+  "result": {
+    "id": "divinerpg:spider_pumpkin"
   }
 }

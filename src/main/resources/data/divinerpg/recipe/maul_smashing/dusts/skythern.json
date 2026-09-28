@@ -1,0 +1,14 @@
+{
+  "type": "divinerpg:maul_smashing",
+  "input": [
+    {
+      "tag": "divinerpg:ores/skythern"
+    },
+    {
+      "item": "divinerpg:skythern_fragments"
+    }
+  ],
+  "output": {
+    "id": "divinerpg:skythern_dust"
+  }
+}

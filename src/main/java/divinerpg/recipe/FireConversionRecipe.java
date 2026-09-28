@@ -16,16 +16,18 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
 import java.util.Optional;
 
-public record FireConversionRecipe(Ingredient inputItem, RuleTest inputState, Optional<ItemStack> outputItem, Optional<BlockStateProvider> outputState, Optional<ResourceLocation> advancement, Optional<String> advancementCriteria) implements Recipe<RecipeInput> {
+public record FireConversionRecipe(Ingredient inputItem, RuleTest inputState, Optional<ItemStack> outputItem, Optional<BlockStateProvider> outputState, Optional<ResourceLocation> advancement, Optional<String> advancementCriteria, Optional<RuleTest> frame, Optional<BlockStateProvider> portal) implements Recipe<RecipeInput> {
     public static final MapCodec<FireConversionRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
         Ingredient.CODEC.fieldOf("input_item").forGetter(FireConversionRecipe::inputItem),
         RuleTest.CODEC.fieldOf("input_state").forGetter(FireConversionRecipe::inputState),
         ItemStack.OPTIONAL_CODEC.optionalFieldOf("output_item").forGetter(FireConversionRecipe::outputItem),
         BlockStateProvider.CODEC.optionalFieldOf("output_state").forGetter(FireConversionRecipe::outputState),
         ResourceLocation.CODEC.optionalFieldOf("advancement").forGetter(FireConversionRecipe::advancement),
-        Codec.STRING.optionalFieldOf("advancement_criteria").forGetter(FireConversionRecipe::advancementCriteria)
+        Codec.STRING.optionalFieldOf("advancement_criteria").forGetter(FireConversionRecipe::advancementCriteria),
+        RuleTest.CODEC.optionalFieldOf("frame").forGetter(FireConversionRecipe::frame),
+        BlockStateProvider.CODEC.optionalFieldOf("portal").forGetter(FireConversionRecipe::portal)
     ).apply(instance, FireConversionRecipe::new));
-    public static final RecipeType<FireConversionRecipe> TYPE = RecipeType.simple(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "maul_smashing"));
+    public static final RecipeType<FireConversionRecipe> TYPE = RecipeType.simple(ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "fire_conversion"));
     @Override
     public boolean matches(RecipeInput recipeInput, Level level) {
         return inputItem.test(recipeInput.getItem(0));
@@ -44,7 +46,7 @@ public record FireConversionRecipe(Ingredient inputItem, RuleTest inputState, Op
     }
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return RecipeRegistry.Serailizers.FIRE_CONVERSION_SERIALIZER.get();
+        return RecipeRegistry.Serializers.FIRE_CONVERSION_SERIALIZER.get();
     }
     @Override
     public RecipeType<?> getType() {
@@ -59,7 +61,9 @@ public record FireConversionRecipe(Ingredient inputItem, RuleTest inputState, Op
             Optional<BlockStateProvider> outputState = buffer.readBoolean() ? Optional.of(buffer.readJsonWithCodec(BlockStateProvider.CODEC)) : Optional.empty();
             Optional<ResourceLocation> advancement = buffer.readBoolean() ? Optional.of(buffer.readResourceLocation()) : Optional.empty();
             Optional<String> advancementCriteria = buffer.readBoolean() ? Optional.of(buffer.readUtf()) : Optional.empty();
-            return new FireConversionRecipe(inputItem, inputState, Optional.of(outputItem), outputState, advancement, advancementCriteria);
+            Optional<RuleTest> frame = buffer.readBoolean() ? Optional.of(buffer.readJsonWithCodec(RuleTest.CODEC)) : Optional.empty();
+            Optional<BlockStateProvider> portal = buffer.readBoolean() ? Optional.of(buffer.readJsonWithCodec(BlockStateProvider.CODEC)) : Optional.empty();
+            return new FireConversionRecipe(inputItem, inputState, Optional.of(outputItem), outputState, advancement, advancementCriteria, frame, portal);
         }
         public static void toNetwork(RegistryFriendlyByteBuf buffer, FireConversionRecipe recipe) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.inputItem);
@@ -76,6 +80,14 @@ public record FireConversionRecipe(Ingredient inputItem, RuleTest inputState, Op
             if(recipe.advancementCriteria.isPresent()) {
                 buffer.writeBoolean(true);
                 buffer.writeUtf(recipe.advancementCriteria.get());
+            } else buffer.writeBoolean(false);
+            if(recipe.frame.isPresent()) {
+                buffer.writeBoolean(true);
+                buffer.writeJsonWithCodec(RuleTest.CODEC, recipe.frame.get());
+            } else buffer.writeBoolean(false);
+            if(recipe.portal.isPresent()) {
+                buffer.writeBoolean(true);
+                buffer.writeJsonWithCodec(BlockStateProvider.CODEC, recipe.portal.get());
             } else buffer.writeBoolean(false);
         }
         @Override public MapCodec<FireConversionRecipe> codec() {return CODEC;}

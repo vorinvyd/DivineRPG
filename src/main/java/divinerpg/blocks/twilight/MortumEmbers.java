@@ -1,6 +1,7 @@
 package divinerpg.blocks.twilight;
 
 import divinerpg.DivineRPG;
+import divinerpg.blocks.vanilla.Fire;
 import divinerpg.registries.SoundRegistry;
 import divinerpg.util.Utils;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -23,7 +24,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 
 import java.util.List;
 
-public class MortumEmbers extends TwilightFire {
+public class MortumEmbers extends Fire {
     public static final ResourceLocation ADVANCEMENT = ResourceLocation.fromNamespaceAndPath(DivineRPG.MODID, "twilight/curses");
     public MortumEmbers() {
         super(25F);

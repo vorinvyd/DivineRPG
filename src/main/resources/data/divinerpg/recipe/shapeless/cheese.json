@@ -1,11 +1,30 @@
 {
-  "result": {
-    "id": "divinerpg:cheese"
-  },
+  "type": "crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:milk_bucket"
+      "tag": "c:drinks/milk"
+    },
+    {
+      "tag": "c:foods/white_mushroom"
+    },
+    {
+      "tag": "c:seeds/tomato"
+    },
+    {
+      "item": "sugar"
     }
   ],
-  "type": "minecraft:crafting_shapeless"
+  "result": {
+    "id": "divinerpg:cheese",
+    "count": 3
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "brewinandchewin"
+      }
+    }
+  ]
 }

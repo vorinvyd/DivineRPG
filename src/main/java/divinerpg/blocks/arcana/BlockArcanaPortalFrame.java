@@ -17,11 +17,13 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.*;
 
 public class BlockArcanaPortalFrame extends BlockMod {
+    //TODO: to fix vanilla bug, that causes activation sound to play when placing more portal frames near existing ones
+    // does it play globally?
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     protected static final VoxelShape BASE_SHAPE = Block.box(0, 0, 0, 16, 13, 16);
     private static BlockPattern portalShape;
-    public BlockArcanaPortalFrame(float hardness, float resistance) {
-        super(Properties.of().mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().pushReaction(PushReaction.BLOCK).strength(hardness, resistance).sound(SoundType.METAL));
+    public BlockArcanaPortalFrame() {
+        super(Properties.of().mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().pushReaction(PushReaction.BLOCK).strength(5, 6).sound(SoundType.METAL));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
     @Override public boolean useShapeForLightOcclusion(BlockState state) {return true;}

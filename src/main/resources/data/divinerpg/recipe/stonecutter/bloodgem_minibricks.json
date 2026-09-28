@@ -1,9 +1,9 @@
 {
-  "type": "minecraft:stonecutting",
+  "type": "stonecutting",
   "ingredient": {
     "item": "divinerpg:bloodgem_bricks"
   },
-  "result":{
+  "result": {
     "id": "divinerpg:bloodgem_minibricks"
   }
 }

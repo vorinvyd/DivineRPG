@@ -1,19 +1,18 @@
 {
-  "result": {
-    "id": "divinerpg:nightmare_bed"
-  },
+  "type": "crafting_shaped",
   "pattern": [
-    "   ",
     "BBB",
     "WWW"
   ],
-  "type": "minecraft:crafting_shaped",
   "key": {
     "B": {
-      "item": "divinerpg:mortum_heart"
+      "tag": "divinerpg:hearts/mortum"
     },
     "W": {
-      "item": "divinerpg:mortum_block"
+      "tag": "divinerpg:storage_blocks/mortum"
     }
+  },
+  "result": {
+    "id": "divinerpg:nightmare_bed"
   }
 }

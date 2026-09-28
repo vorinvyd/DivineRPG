@@ -1,0 +1,31 @@
+{
+  "type": "divinerpg:fire_conversion",
+  "input_item": [
+    {
+      "item": "divinerpg:apalachia_soul"
+    },
+    {
+      "item": "divinerpg:apalachia_heart"
+    }
+  ],
+  "input_state": {
+    "predicate_type": "block_match",
+    "block": "fire"
+  },
+  "output_state": {
+    "type": "simple_state_provider",
+    "state": {
+      "Name": "divinerpg:enchanted_flame"
+    }
+  },
+  "frame": {
+    "predicate_type": "block_match",
+    "block": "divinerpg:apalachia_block"
+  },
+  "portal": {
+    "type": "simple_state_provider",
+    "state": {
+      "Name": "divinerpg:apalachia_portal"
+    }
+  }
+}

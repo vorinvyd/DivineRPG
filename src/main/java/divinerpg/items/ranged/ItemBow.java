@@ -1,27 +1,24 @@
 package divinerpg.items.ranged;
 
+import divinerpg.enums.ToolStats;
 import divinerpg.items.ranged.bows.*;
 import divinerpg.network.payload.AccurateSetMotionPacket;
 import divinerpg.util.LocalizeUtils;
-import divinerpg.util.Utils;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.*;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
-import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.Unbreakable;
-import net.minecraft.world.item.enchantment.*;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.*;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
@@ -32,19 +29,27 @@ import java.util.function.Supplier;
 import static net.minecraft.sounds.SoundEvents.ARROW_SHOOT;
 import static net.minecraft.sounds.SoundSource.PLAYERS;
 import static net.minecraft.stats.Stats.ITEM_USED;
+import static net.neoforged.api.distmarker.Dist.CLIENT;
 
 public class ItemBow extends BowItem {
     public final int useDuration;
     public final Integer nameColor;
     public final Supplier<Item> infinityArrow;
     public final float speedScale;
-    public ItemBow(Properties properties, int uses, int useDuration, float speedScale, Supplier<Item> infinityArrow, Integer nameColor) {
-        super((uses == 0 ? properties.stacksTo(1).component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : properties.durability(uses)));
-        this.useDuration = useDuration;
+    private final ToolStats stats;
+    public ItemBow(ToolStats tier, Properties properties, Supplier<Item> infinityArrow, Integer nameColor) {
+        super(tier.getUses() == 0 ? properties.stacksTo(1).component(DataComponents.UNBREAKABLE, new Unbreakable(true)) : properties.durability(tier.getUses()));
+        useDuration = (int)tier.getUseDuration();
         this.nameColor = nameColor;
         this.infinityArrow = infinityArrow;
-        this.speedScale = speedScale;
+        speedScale = tier.getSpeed();
+        stats = tier;
     }
+    @Override public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
+        return stats.getRepairIngredient().test(repair) || super.isValidRepairItem(toRepair, repair);
+    }
+    @Override public int getEnchantmentValue() {return stats.getEnchantmentValue();}
+    @Override public boolean isEnchantable(ItemStack stack) {return true;}
     @Override public int getUseDuration(ItemStack stack, LivingEntity entity) {return useDuration;}
     @Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
@@ -73,12 +78,11 @@ public class ItemBow extends BowItem {
             }
         }
     }
-    @Override
-    protected void shoot(ServerLevel level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, List<ItemStack> projectileItems, float velocity, float inaccuracy, boolean isCrit, @Nullable LivingEntity target) {
-        float f = EnchantmentHelper.processProjectileSpread(level, weapon, shooter, 0F);
-        float f1 = projectileItems.size() == 1 ? 0F : 2F * f / (projectileItems.size() - 1);
-        float f2 = ((projectileItems.size() - 1) % 2) * f1 / 2F;
-        float f3 = 1F;
+    @Override protected void shoot(ServerLevel level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, List<ItemStack> projectileItems, float velocity, float inaccuracy, boolean isCrit, @Nullable LivingEntity target) {
+        float f = EnchantmentHelper.processProjectileSpread(level, weapon, shooter, 0);
+        float f1 = projectileItems.size() == 1 ? 0 : 2 * f / (projectileItems.size() - 1);
+        float f2 = ((projectileItems.size() - 1) % 2) * f1 / 2;
+        float f3 = 1;
         for(int i = 0; i < projectileItems.size(); ++i) {
             ItemStack itemstack = projectileItems.get(i);
             if(!itemstack.isEmpty()) {
@@ -96,13 +100,6 @@ public class ItemBow extends BowItem {
     @Override public ItemStack getDefaultCreativeAmmo(@Nullable Player player, ItemStack projectileWeaponItem) {
         return new ItemStack(infinityArrow == null ? Items.ARROW : infinityArrow.get());
     }
-    @Override public boolean isEnchantable(ItemStack stack) {return true;}
-    @Override public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
-        return super.supportsEnchantment(stack, enchantment) && (stack.has(DataComponents.MAX_DAMAGE) || !(enchantment.is(Enchantments.MENDING) || enchantment.is(Enchantments.UNBREAKING)));
-    }
-    @Override public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return stack.has(DataComponents.MAX_DAMAGE) || !(Utils.hasStoredEnchantment(Enchantments.MENDING, book) || Utils.hasStoredEnchantment(Enchantments.UNBREAKING, book));
-    }
     public static void addEffect(Arrow arrow, MobEffectInstance instance) {
         ItemStack stack = arrow.getPickupItemStackOrigin();
         PotionContents contents = stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
@@ -110,7 +107,7 @@ public class ItemBow extends BowItem {
         for(MobEffectInstance c : contentsit) if(c.is(instance.getEffect())) return;
         stack.set(DataComponents.POTION_CONTENTS, contents.withEffectAdded(instance));
     }
-    @OnlyIn(Dist.CLIENT)
+    @OnlyIn(CLIENT)
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         float speed = 72000F / useDuration;
         tooltip.add(LocalizeUtils.shootingPower(speedScale));
@@ -118,7 +115,19 @@ public class ItemBow extends BowItem {
         if(speed < 1) tooltip.add(LocalizeUtils.bowSlowerPull(1 / speed));
         if(this instanceof EnderBow) tooltip.add(LocalizeUtils.teleportAttached());
         if(this instanceof InfernoBow) tooltip.add(LocalizeUtils.burningShots());
-        if(infinityArrow != null) tooltip.add(LocalizeUtils.infiniteAmmo());
+        PotionContents potioncontents = stack.get(DataComponents.POTION_CONTENTS);
+        if(potioncontents != null) {
+            tooltip.add(LocalizeUtils.inflict());
+            potioncontents.addPotionTooltip(component -> {
+                for(MobEffectInstance effect : potioncontents.customEffects()) {
+                    //TODO: to make it changing color of the effect part only, not the whole potion tooltip
+                    if(effect.getEffect() == MobEffects.BLINDNESS) tooltip.add(component.copy().withStyle(ChatFormatting.BLACK));
+                    else if(effect.getEffect() == MobEffects.MOVEMENT_SLOWDOWN) tooltip.add(component.copy().withStyle(ChatFormatting.DARK_AQUA));
+                    else if(effect.getEffect() == MobEffects.POISON) tooltip.add(component.copy().withStyle(ChatFormatting.DARK_GREEN));
+                    else tooltip.add(component.copy());
+                }
+            }, 1, context.tickRate());
+        } if(infinityArrow != null) tooltip.add(LocalizeUtils.infiniteAmmo());
         super.appendHoverText(stack, context, tooltip, flagIn);
     }
     @Override public Component getName(ItemStack pStack) {

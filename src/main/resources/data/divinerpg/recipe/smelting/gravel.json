@@ -1,0 +1,12 @@
+{
+  "type": "smelting",
+  "category": "blocks",
+  "group": "gravel",
+  "ingredient": {
+    "item": "divinerpg:frozen_gravel"
+  },
+  "result": {
+    "id": "gravel"
+  },
+  "experience": 0.1
+}

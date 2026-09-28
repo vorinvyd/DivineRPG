@@ -1,18 +1,28 @@
 {
   "type": "divinerpg:fire_conversion",
   "input_item": {
-      "item": "divinerpg:ice_stone"
+      "tag": "divinerpg:gems/ice"
   },
   "input_state": {
-    "predicate_type": "minecraft:block_match",
-    "block": "minecraft:fire"
+    "predicate_type": "block_match",
+    "block": "fire"
   },
   "output_state": {
-    "type": "minecraft:simple_state_provider",
+    "type": "simple_state_provider",
     "state": {
       "Name": "divinerpg:icy_fire"
     }
   },
   "advancement": "divinerpg:divine/freezing_fire",
-  "advancement_criteria": "create_icy_fire"
+  "advancement_criteria": "create_icy_fire",
+  "frame": {
+    "predicate_type": "tag_match",
+    "tag": "divinerpg:base_blocks/icy_fire"
+  },
+  "portal": {
+    "type": "simple_state_provider",
+    "state": {
+      "Name": "divinerpg:iceika_portal"
+    }
+  }
 }

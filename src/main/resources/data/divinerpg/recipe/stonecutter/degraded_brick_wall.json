@@ -1,9 +1,9 @@
 {
-  "type": "minecraft:stonecutting",
+  "type": "stonecutting",
   "ingredient": {
     "item": "divinerpg:degraded_bricks_breakable"
   },
-  "result":{
-    "id":  "divinerpg:degraded_brick_wall_breakable"
+  "result": {
+    "id": "divinerpg:degraded_brick_wall_breakable"
   }
 }

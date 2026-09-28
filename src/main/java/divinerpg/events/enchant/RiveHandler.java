@@ -17,6 +17,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
 public class RiveHandler {
+    //TODO: block breaking sound plays twice for the block that gets broken directly by the player
     @SubscribeEvent
     public void handleWorldBreak(BlockEvent.BreakEvent event) {
         Level world = (Level) event.getLevel();
@@ -40,7 +41,7 @@ public class RiveHandler {
                 totalBlocksBroken++;
                 event.setCanceled(true);
             }
-        } if(totalBlocksBroken > 0) itemStack.hurtAndBreak(totalBlocksBroken - 1, player, EquipmentSlot.MAINHAND);
+        } if(totalBlocksBroken > 0) itemStack.hurtAndBreak(totalBlocksBroken, player, EquipmentSlot.MAINHAND);
     }
     private boolean tryToBreakBlock(Level world, Player player, BlockPos pos, BlockState blockState, ItemStack tool, float destroySpeed) {
         Block block = blockState.getBlock();

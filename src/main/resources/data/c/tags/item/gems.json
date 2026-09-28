@@ -1,6 +1,6 @@
 {
   "values": [
-    "#divinerpg:chunks",
+    "#divinerpg:chunks/twilight",
     "#divinerpg:gems/ice",
     "#divinerpg:gems/jungle",
     "#divinerpg:gems/terran",
@@ -8,6 +8,7 @@
     "#divinerpg:gems/corrupted",
     "#divinerpg:gems/divine",
     "#divinerpg:gems/bloodgem",
+    "#divinerpg:gems/healing",
     "#divinerpg:gems/molten",
     "#divinerpg:gems/soulfire",
     "#divinerpg:gems/olivine",

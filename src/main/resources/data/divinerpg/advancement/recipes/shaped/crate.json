@@ -1,37 +1,48 @@
 {
   "parent": "recipes/root",
   "criteria": {
-    "has_wood": {
+    "has_iron": {
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-              "items": "#logs"
+            "items": "#c:ingots/iron"
           }
         ]
-      },
-      "trigger": "inventory_changed"
+      }
     },
-    "has_planks": {
+    "has_barrel": {
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-              "items": "#planks"
+            "items": "#c:barrels/wooden"
           }
         ]
-      },
-      "trigger": "inventory_changed"
+      }
+    },
+    "has_torch": {
+      "trigger": "inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "redstone_torch"
+          }
+        ]
+      }
     },
     "has_the_recipe": {
+      "trigger": "recipe_unlocked",
       "conditions": {
-        "recipe": "divinerpg:shaped/crate"
-      },
-      "trigger": "recipe_unlocked"
+        "recipe": "hopper"
+      }
     }
   },
   "requirements": [
     [
-      "has_wood",
-      "has_planks",
+      "has_iron",
+      "has_barrel",
+      "has_torch",
       "has_the_recipe"
     ]
   ],

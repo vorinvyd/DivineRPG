@@ -5,15 +5,16 @@ import divinerpg.block_entities.block.TerranGhostBlockEntity;
 import divinerpg.entities.goals.TurtleEatAequoreaGoal;
 import divinerpg.entities.vanilla.overworld.EntityAequorea;
 import divinerpg.network.payload.Weather;
-import divinerpg.recipe.FireConversionRecipe;
+import divinerpg.recipe.*;
 import divinerpg.registries.*;
 import divinerpg.util.Utils;
-import net.minecraft.core.BlockPos;
+import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.*;
 import net.minecraft.sounds.*;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -23,14 +24,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.entity.*;
+import net.neoforged.neoforge.event.entity.player.*;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.*;
 
 import java.util.List;
+
+import static divinerpg.registries.TagRegistry.CLOCKS;
 
 public class Ticker {
     public static int tick;
@@ -38,8 +44,8 @@ public class Ticker {
     public void tickServer(ServerTickEvent.Pre evt) {
         if(evt.hasTime()) {
             tick++;
-            if(tick>100000) tick = 0;
-            if(Math.random() < .0001D) Utils.ICEIKA_WEATHER = Weather.newWeather(evt.getServer().getLevel(LevelRegistry.ICEIKA));
+            if(tick > 100000) tick = 0;
+            if(Math.random() < .0001) Utils.ICEIKA_WEATHER = Weather.newWeather(evt.getServer().getLevel(LevelRegistry.ICEIKA));
         }
     }
 	@SubscribeEvent
@@ -50,27 +56,37 @@ public class Ticker {
         if(level.dimension() == LevelRegistry.ICEIKA) {
             if(!level.isClientSide() && (player.tickCount & 7) == 0) AttachmentRegistry.IN_DUNGEON.set(player, ((ServerLevel) level).structureManager().getStructureWithPieceAt(player.blockPosition(), TagRegistry.ICEIKA_DUNGEON).isValid());
             if(!player.isCreative() && !player.isSpectator()) {
-                if(Utils.ICEIKA_WEATHER == 1 && level.isRaining() && player.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && player.getRandom().nextFloat() < .1F && level.canSeeSky(player.blockPosition())) player.hurt(level.damageSources().generic(), 1F);
-                if(!level.isClientSide() && !player.hasEffect(MobEffectRegistry.WARMTH) && !player.getItemBySlot(EquipmentSlot.CHEST).getTagEnchantments().keySet().contains(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(EnchantmentRegistry.INSULATION)) && level.getLightEngine().getLayerListener(LightLayer.BLOCK).getLightValue(player.blockPosition()) < 8) {
+                if(Utils.ICEIKA_WEATHER == 1 && level.isRaining() && player.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && player.getRandom().nextFloat() < .1F && level.canSeeSky(player.blockPosition())) player.hurt(level.damageSources().source(DamageRegistry.HAIL.getKey()), 1);
+                if(!level.isClientSide && !player.hasEffect(MobEffectRegistry.WARMTH) && !player.isOnFire() && !player.getItemBySlot(EquipmentSlot.CHEST).getTagEnchantments().keySet().contains(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(EnchantmentRegistry.INSULATION)) && level.getLightEngine().getLayerListener(LightLayer.BLOCK).getLightValue(player.blockPosition()) < 8) {
                     player.setSharedFlagOnFire(false);
                     if(player.isFullyFrozen()) {
                         player.setTicksFrozen(player.getTicksRequiredToFreeze() + 2);
-                        if(player.getHealth() > 1F && player.tickCount % 40 == 0) player.hurt(level.damageSources().freeze(), .5F);
+                        if(player.getHealth() > 1 && player.tickCount % 40 == 0) player.hurt(level.damageSources().freeze(), .5F);
                     } else player.setTicksFrozen(player.getTicksFrozen() + 2 + player.getRandom().nextInt(2) + (Utils.ICEIKA_WEATHER == 2 ? player.getRandom().nextInt(2) : 0));
                 }
             }
-        }
-        if(player.getItemBySlot(EquipmentSlot.CHEST).getAllEnchantments(CommonHooks.resolveLookup(Registries.ENCHANTMENT)).keySet().contains(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(EnchantmentRegistry.INSULATION))) {
+        } if(player.getItemBySlot(EquipmentSlot.CHEST).getAllEnchantments(CommonHooks.resolveLookup(Registries.ENCHANTMENT)).keySet().contains(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(EnchantmentRegistry.INSULATION))) {
     		int f = player.getTicksFrozen();
     		if(f > 0) player.setTicksFrozen(f - 2);
         }
     }
-
+    @SubscribeEvent
+    public void canSleep(CanPlayerSleepEvent e) {
+        Player.BedSleepingProblem p = e.getProblem();
+        if((p == Player.BedSleepingProblem.NOT_POSSIBLE_HERE || p == Player.BedSleepingProblem.NOT_POSSIBLE_NOW) && e.getState().is(BlockRegistry.nightmareBed))
+            e.setProblem(null);
+    }
+    @SubscribeEvent
+    public void canContinueSleeping(CanContinueSleepingEvent e) {
+        Player.BedSleepingProblem p = e.getProblem();
+        if((p == Player.BedSleepingProblem.NOT_POSSIBLE_HERE || p == Player.BedSleepingProblem.NOT_POSSIBLE_NOW) && e.getEntity().getInBlockState().is(BlockRegistry.nightmareBed))
+            e.setContinueSleeping(true);
+    }
     @SubscribeEvent
     public void addVanillaMobGoals(EntityJoinLevelEvent event) {
         if(event.getEntity() instanceof Turtle turtle) {
             turtle.goalSelector.addGoal(3, new NearestAttackableTargetGoal<>(turtle, EntityAequorea.class, false));
-            turtle.goalSelector.addGoal(3, new TurtleEatAequoreaGoal(turtle, turtle.getAttributeValue(Attributes.FOLLOW_RANGE), false));
+            turtle.goalSelector.addGoal(3, new TurtleEatAequoreaGoal(turtle, turtle.getAttributeValue(Attributes.MOVEMENT_SPEED) * 4, false));
         }
     }
     @SubscribeEvent
@@ -86,20 +102,35 @@ public class Ticker {
         } return false;
     }
     @SubscribeEvent
+    public void onUseOnBlock(UseItemOnBlockEvent event) {
+        ItemStack item = event.getItemStack();
+        if(item.is(CLOCKS) && Utils.clockUse(event.getLevel(), item, event.getPos(), event.getLevel().getBlockState(event.getPos()), List.of(event.getPlayer()), event.getFace())) event.cancelWithResult(ItemInteractionResult.SUCCESS);
+    }
+    @SubscribeEvent
     public void onEntityLeave(EntityLeaveLevelEvent event) {
         if(!event.getLevel().isClientSide && event.getEntity() instanceof ItemEntity i && i.getAge() < i.lifespan) {
             ItemStack stack = i.getItem();
             if(stack.isEmpty()) return;
-            ServerLevel level = (ServerLevel) event.getLevel();
-            List<FireConversionRecipe> recipes = level.getRecipeManager().getAllRecipesFor(FireConversionRecipe.TYPE).stream().filter(r -> r.value().inputItem().test(stack)).map(RecipeHolder::value).toList();
-            if(recipes.isEmpty()) return;
             BlockPos pos = i.blockPosition();
+            Iterable<BlockPos> positions = BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 0, 1));
+            ServerLevel level = (ServerLevel) event.getLevel();
+            if(!level.isAreaLoaded(pos, 1)) return;
+            List<FireConversionRecipe> recipes = level.getRecipeManager().getAllRecipesFor(FireConversionRecipe.TYPE).stream().filter(r -> r.value().inputItem().test(stack)).map(RecipeHolder::value).toList();
             BlockState state, prevState;
-            BlockPos[] positions = new BlockPos[]{pos, pos.below(), pos.north(), pos.east(), pos.south(), pos.west(), pos.offset(1, 0, 1), pos.offset(1, 0, -1), pos.offset(-1, 0, 1), pos.offset(-1, 0, -1)};
             for(BlockPos position : positions) {
                 prevState = state = level.getBlockState(position);
-                if(!state.isAir()) for(FireConversionRecipe recipe : recipes) if(recipe.inputState().test(state, level.random)) {
-                    if(recipe.outputState().isPresent()) level.setBlock(position, state = recipe.outputState().get().getState(level.getRandom(), position), 3);
+                if(state.isAir()) continue;
+                for(FireConversionRecipe recipe : recipes) if(recipe.inputState().test(state, level.random)) {
+                    level.setBlock(position, Blocks.AIR.defaultBlockState(), Block.UPDATE_NONE);
+                    Direction.Axis axis;
+                    if(recipe.frame().isPresent() && recipe.portal().isPresent() && (axis = Utils.checkForFrame(level, position, recipe.frame().get())) != null) {
+                        if(!level.isClientSide) Utils.spreadBlock(level, recipe.portal().get().getState(level.random, position).setValue(BlockStateProperties.HORIZONTAL_AXIS, axis), position, Blocks.AIR, axis);
+                        level.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1, level.random.nextFloat() * .4F + .8F);
+                        level.playSound(null, pos, SoundRegistry.PORTAL_CREATION.get(), SoundSource.BLOCKS, 1, 1F);
+                        if(recipe.outputState().isPresent()) prevState = recipe.outputState().get().getState(level.getRandom(), position);
+                        state = Blocks.AIR.defaultBlockState();
+                    } else if(recipe.outputState().isPresent()) level.setBlock(position, state = recipe.outputState().get().getState(level.getRandom(), position), 3);
+                    else level.setBlock(position, prevState, Block.UPDATE_NONE);
                     if(recipe.outputItem().isPresent()) {
                         ItemStack output = recipe.outputItem().get().copy();
                         if(!output.isEmpty()) {
@@ -134,7 +165,7 @@ public class Ticker {
                         level.playSound(null, position, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1, 1);
                         level.playSound(null, position, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1, 1);
                     } return;
-                }
+                } if(state.is(BlockTags.FIRE) && stack.is(CLOCKS) && Utils.clockUse(level, stack, position, state, Utils.getNearbyPlayers(level, i.getX(), i.getY(), i.getZ(), 9), null)) return;
             }
         }
     }

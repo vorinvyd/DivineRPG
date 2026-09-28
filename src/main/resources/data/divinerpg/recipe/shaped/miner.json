@@ -1,23 +1,23 @@
 {
+  "type": "crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "III",
+    "ISI",
+    "IRI"
+  ],
+  "key": {
+    "I": {
+      "tag": "divinerpg:ingots/rupee"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "S": {
+      "tag": "c:tools/level/diamond/multipurpose"
+    }
+  },
   "result": {
     "id": "divinerpg:miner"
-  },
-  "pattern": [
-    "xxx",
-    "xcx",
-    "xrx"
-  ],
-  "type": "minecraft:crafting_shaped",
-  "category": "redstone",
-  "key": {
-    "x": {
-      "item": "divinerpg:rupee_ingot"
-    },
-    "r": {
-      "item": "minecraft:redstone"
-    },
-    "c": {
-      "item": "divinerpg:rupee_shickaxe"
-    }
   }
 }

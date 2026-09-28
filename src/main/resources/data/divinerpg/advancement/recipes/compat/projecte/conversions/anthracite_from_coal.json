@@ -1,0 +1,34 @@
+{
+  "parent": "recipes/root",
+  "criteria": {
+    "has_coal": {
+      "trigger": "inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "projecte:philosophers_stone"
+          },
+          {
+            "items": "coal"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_coal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "divinerpg:compat/projecte/conversions/anthracite_from_coal"
+    ]
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projecte"
+    }
+  ]
+}

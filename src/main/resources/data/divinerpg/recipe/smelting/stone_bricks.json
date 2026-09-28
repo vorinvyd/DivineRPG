@@ -1,0 +1,12 @@
+{
+  "type": "smelting",
+  "category": "blocks",
+  "group": "stone_bricks",
+  "ingredient": {
+    "item": "divinerpg:frozen_bricks"
+  },
+  "result": {
+    "id": "stone_bricks"
+  },
+  "experience": 0.1
+}

@@ -1,0 +1,22 @@
+{
+  "transmutations": [
+    {
+      "origin": "divinerpg:asphalt",
+      "result": {
+        "Name": "divinerpg:smoldering_tar",
+        "Properties": {
+          "level": 0
+        }
+      }
+    },
+    {
+      "origin": {
+        "Name": "divinerpg:smoldering_tar",
+        "Properties": {
+          "level": 0
+        }
+      },
+      "result": "divinerpg:asphalt"
+    }
+  ]
+}

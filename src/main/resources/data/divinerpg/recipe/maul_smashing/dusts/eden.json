@@ -1,0 +1,14 @@
+{
+  "type": "divinerpg:maul_smashing",
+  "input": [
+    {
+      "tag": "divinerpg:ores/eden"
+    },
+    {
+      "item": "divinerpg:eden_fragments"
+    }
+  ],
+  "output": {
+    "id": "divinerpg:eden_dust"
+  }
+}

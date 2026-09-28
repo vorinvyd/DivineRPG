@@ -1,36 +1,32 @@
 package divinerpg.blocks.vethea;
 
-import divinerpg.blocks.base.PortalBlock;
+import divinerpg.blocks.base.SimplePortalBlock;
 import divinerpg.registries.*;
-import divinerpg.util.UniversalPosition;
-import divinerpg.world.placement.Surface;
-import divinerpg.world.placement.Surface.Mode;
-import divinerpg.world.placement.Surface.Surface_Type;
+import divinerpg.world.placement.Surface.*;
 import net.minecraft.core.*;
-import net.minecraft.core.Direction.Axis;
+import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.server.level.*;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.portal.DimensionTransition;
+import org.jetbrains.annotations.Nullable;
 
-public class VetheaPortal extends PortalBlock {
+public class VetheaPortal extends SimplePortalBlock {
 	public VetheaPortal() {
-		super(Properties.ofFullCopy(Blocks.NETHER_PORTAL), LevelRegistry.VETHEA, LevelRegistry.MORTUM, BlockRegistry.mortumBlock.get(), null);
+		super(LevelRegistry.VETHEA, LevelRegistry.MORTUM, BlockRegistry.mortumBlock.get(), null);
 	}
-	@Override
-	public BlockPos applyPlacementLocationPreference(ServerLevel level, Entity entity, BlockPos pos) {
-		if(level.dimension() == rootDimension) return new BlockPos(pos.getX(), Surface.getSurface(Surface_Type.LOWEST_GROUND, Mode.FULL, level.getMinBuildHeight(), 32, 0, level, level.getRandom(), pos.getX(), pos.getZ()), pos.getZ());
-		if(entity instanceof ServerPlayer p && p.getRespawnDimension() == level.dimension()) {
+	@Override @Nullable
+	public DimensionTransition getSimpleConnection(ServerLevel level, Entity entity, BlockPos pos) {
+		if(level.dimension() == rootDimension && entity instanceof ServerPlayer p) {
 			DimensionTransition d = p.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
-			if(d != null) return UniversalPosition.toBlockPos(d.pos());
-		} return pos;
+			if(d.missingRespawnBlock()) p.connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.NO_RESPAWN_BLOCK_AVAILABLE, 0F));
+			return d;
+		} return null;
 	}
 	@Override
-	public boolean hasRoomForPortal(ServerLevel level, BlockPos pos) {
+	public boolean hasSpace(ServerLevel level, BlockPos pos) {
 		return level.getBlockState(pos).isAir() || level.getBlockState(pos.above()).isAir();
 	}
-	@Override
-	public BlockPos placePortal(ServerLevel level, BlockPos pos, Axis axis) {
-		return pos;
-	}
+	@Override @Nullable public BlockPos lookForNearbyPortal(ServerLevel level, Entity entity, BlockPos center) {return null;}
+	@Override public void link(ServerLevel originLevel, BlockPos originPos, ServerLevel targetLevel, BlockPos targetPos) {}
+	@Override public BlockPos placeAndLink(ServerLevel originLevel, BlockPos originPos, ServerLevel targetLevel, BlockPos targetPos, Entity entity) {return targetPos;}
 }

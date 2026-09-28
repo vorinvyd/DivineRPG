@@ -1,0 +1,17 @@
+{
+  "values": [
+    "divinerpg:slime_light",
+    "#divinerpg:bridges",
+    "#divinerpg:fences/redstone",
+    "#divinerpg:crates",
+    "divinerpg:inserter",
+    "divinerpg:distributor",
+    "divinerpg:elevantium",
+    "divinerpg:oxdrite_rail",
+    "divinerpg:oxdrite_lamp",
+    "divinerpg:capacitor",
+    "divinerpg:miner",
+    "divinerpg:soft_miner",
+    "divinerpg:placer"
+  ]
+}

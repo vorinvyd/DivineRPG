@@ -1,0 +1,25 @@
+{
+  "parent": "recipes/root",
+  "criteria": {
+    "has_bacon": {
+      "trigger": "inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "divinerpg:bacon"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bacon"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "divinerpg:smelting/cooked_bacon"
+    ]
+  }
+}

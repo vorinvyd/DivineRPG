@@ -1,9 +1,9 @@
 {
-  "type": "minecraft:stonecutting",
+  "type": "stonecutting",
   "ingredient": {
     "item": "divinerpg:polished_cobaltite"
   },
-  "result":{
-    "id":  "divinerpg:polished_cobaltite_wall"
+  "result": {
+    "id": "divinerpg:polished_cobaltite_wall"
   }
 }

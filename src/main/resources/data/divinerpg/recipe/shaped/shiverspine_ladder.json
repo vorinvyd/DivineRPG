@@ -1,21 +1,21 @@
 {
-  "result": {
-    "id": "divinerpg:shiverspine_ladder",
-    "count": 3
-  },
-  "pattern": [
-    "i i",
-    "iwi",
-    "i i"
-  ],
-  "type": "minecraft:crafting_shaped",
+  "type": "crafting_shaped",
   "group": "shiverspine_ladder",
+  "pattern": [
+    "I I",
+    "IWI",
+    "I I"
+  ],
   "key": {
-    "i": {
-      "item": "minecraft:stick"
+    "I": {
+      "tag": "c:rods/wooden"
     },
-    "w": {
+    "W": {
       "item": "divinerpg:shiverspine_planks"
     }
+  },
+  "result": {
+    "id": "divinerpg:shiverspine_ladder",
+    "count": 4
   }
 }

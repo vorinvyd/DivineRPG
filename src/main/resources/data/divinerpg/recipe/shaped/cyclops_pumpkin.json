@@ -1,21 +1,26 @@
 {
-  "result": {
-    "id": "divinerpg:cyclops_pumpkin"
-  },
+  "type": "crafting_shaped",
+  "category": "building",
+  "group": "mob_pumpkin",
   "pattern": [
     "MMM",
     "MPM",
     "MMM"
   ],
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
-  "group": "mob_pumpkin",
   "key": {
-    "P": {
-      "item": "minecraft:pumpkin"
-    },
+    "P": [
+      {
+        "tag": "c:pumpkins/normal"
+      },
+      {
+        "tag": "c:pumpkins/carved"
+      }
+    ],
     "M": {
       "item": "divinerpg:cyclops_eye_shards"
     }
+  },
+  "result": {
+    "id": "divinerpg:cyclops_pumpkin"
   }
 }

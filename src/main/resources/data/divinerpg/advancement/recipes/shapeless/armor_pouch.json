@@ -1,0 +1,31 @@
+{
+  "parent": "recipes/root",
+  "criteria": {
+    "has_pouch": {
+      "trigger": "inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "divinerpg:red_armor_pouch",
+              "divinerpg:yellow_armor_pouch",
+              "divinerpg:green_armor_pouch",
+              "divinerpg:blue_armor_pouch",
+              "divinerpg:gray_armor_pouch"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_pouch"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "divinerpg:shapeless/armor_pouch"
+    ]
+  }
+}

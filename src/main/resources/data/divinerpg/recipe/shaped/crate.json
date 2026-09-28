@@ -1,21 +1,27 @@
 {
-  "result": {
-    "id": "divinerpg:crate",
-    "count": 4
-  },
+  "type": "crafting_shaped",
+  "category": "redstone",
+  "group": "divinerpg_crate",
   "pattern": [
-    "xxx",
-    "y y",
-    "xxx"
+    "XTX",
+    "IBI",
+    "XIX"
   ],
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
-    "x": {
-      "tag": "minecraft:planks"
+    "X": {
+      "tag": "planks"
     },
-    "y": {
-      "tag": "minecraft:logs"
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "tag": "c:barrels/wooden"
+    },
+    "T": {
+      "item": "redstone_torch"
     }
+  },
+  "result": {
+    "id": "divinerpg:crate"
   }
 }

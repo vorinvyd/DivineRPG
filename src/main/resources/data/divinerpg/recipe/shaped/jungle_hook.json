@@ -1,18 +1,25 @@
 {
+  "type": "crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SSS",
+    " L "
+  ],
+  "key": {
+    "S": {
+      "tag": "divinerpg:gems/jungle"
+    },
+    "L": {
+      "item": "lead"
+    }
+  },
   "result": {
     "id": "divinerpg:jungle_hook"
   },
-  "pattern": [
-    "sss",
-    " l "
-  ],
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "s": {
-      "item": "divinerpg:jungle_stone"
-    },
-    "l": {
-      "item": "minecraft:lead"
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:tag_empty",
+      "tag": "c:ropes"
     }
-  }
+  ]
 }

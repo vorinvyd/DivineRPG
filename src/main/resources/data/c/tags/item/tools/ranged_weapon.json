@@ -9,12 +9,17 @@
     "#divinerpg:tools/shuriken",
     "#divinerpg:tools/sound",
     "#divinerpg:tools/staff",
+    "divinerpg:serenade_striker",
+    "divinerpg:serenade_of_ice",
     "divinerpg:serenade_of_death",
     "divinerpg:maelstrom",
+    "divinerpg:arcanium_attractor",
+    "divinerpg:arcanium_reflector",
     "divinerpg:captains_sparkler",
     "divinerpg:grenade",
     "divinerpg:la_vekor",
     "divinerpg:firefly",
-    "divinerpg:meriks_missile"
+    "divinerpg:meriks_missile",
+    "divinerpg:storm_sword"
   ]
 }

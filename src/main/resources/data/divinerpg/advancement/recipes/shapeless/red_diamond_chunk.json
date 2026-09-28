@@ -1,42 +1,37 @@
 {
-  "parent": "minecraft:recipes/root",
+  "parent": "recipes/root",
   "criteria": {
     "has_diamond": {
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:diamond"
+              "#divinerpg:no_itself/diamond_no_chunks",
+              "divinerpg:yellow_diamond_chunk",
+              "divinerpg:green_diamond_chunk",
+              "divinerpg:blue_diamond_chunk",
+              "divinerpg:gray_diamond_chunk"
             ]
           }
         ]
-      },
-      "trigger": "minecraft:inventory_changed"
+      }
     },
     "has_ingot": {
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:torridite_ingot"
-            ]
+            "items": "#divinerpg:ingots/torridite"
           }
         ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "divinerpg:shapeless/red_diamond_chunk"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+      }
     }
   },
   "requirements": [
     [
       "has_diamond",
-      "has_ingot",
-      "has_the_recipe"
+      "has_ingot"
     ]
   ],
   "rewards": {

@@ -1,0 +1,34 @@
+{
+  "parent": "recipes/root",
+  "criteria": {
+    "has_heart": {
+      "trigger": "inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "projecte:philosophers_stone"
+          },
+          {
+            "items": "#divinerpg:hearts/skythern"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_heart"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "divinerpg:compat/projecte/conversions/skythern_soul"
+    ]
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "projecte"
+    }
+  ]
+}

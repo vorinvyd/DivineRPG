@@ -15,6 +15,7 @@ import net.minecraft.world.level.pathfinder.PathType;
 public class EntityScorcher extends EntityDivineFireballMob {
     public EntityScorcher(EntityType<? extends EntityScorcher> type, Level world) {
         super(type, world);
+        setPathfindingMalus(PathType.WATER, -1);
         setPathfindingMalus(PathType.LAVA, 8);
         setPathfindingMalus(PathType.DANGER_FIRE, 0);
         setPathfindingMalus(PathType.DAMAGE_FIRE, 0);
@@ -32,9 +33,7 @@ public class EntityScorcher extends EntityDivineFireballMob {
             for(int i = 0; i < 2; ++i) level().addParticle(ParticleTypes.LARGE_SMOKE, getRandomX(.5), getRandomY(), getRandomZ(.5), 0, 0, 0);
         }
     }
-    //TODO: to make it taking 3 damage from snowballs
     @Override public boolean isSensitiveToWater() {return true;}
-    @Override public boolean fireImmune() {return true;}
     @Override public int getMaxSpawnClusterSize() {return 1;}
     @Override public boolean isMaxGroupSizeReached(int i) {return i > 1;}
     @Override protected SoundEvent getAmbientSound() {return SoundRegistry.SCORCHER.get();}

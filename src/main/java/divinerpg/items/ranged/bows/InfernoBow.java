@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static divinerpg.enums.ToolStats.INFERNO_BOW;
 import static divinerpg.registries.ItemRegistry.inferno_arrow;
 import static divinerpg.util.RarityList.INFERNO;
 import static java.lang.Integer.MAX_VALUE;
@@ -25,7 +26,7 @@ import static net.minecraft.stats.Stats.ITEM_USED;
 import static net.minecraft.world.item.enchantment.Enchantments.FLAME;
 
 public class InfernoBow extends ItemBow {
-    public InfernoBow() {super(new Properties().fireResistant().component(DataComponentRegistry.weaponAbility, 0).component(DataComponentRegistry.weaponPower, 1F), 0, 72000, 1, inferno_arrow, INFERNO);}
+    public InfernoBow() {super(INFERNO_BOW, new Properties().fireResistant().component(DataComponentRegistry.weaponAbility, 0).component(DataComponentRegistry.weaponPower, 1F), inferno_arrow, INFERNO);}
     @Override public AbstractArrow customArrow(AbstractArrow arrow, ItemStack projectileStack, ItemStack weaponStack) {
         arrow.igniteForTicks(MAX_VALUE >> 1);
         return arrow;
@@ -66,11 +67,11 @@ public class InfernoBow extends ItemBow {
                     if(infinityArrow != null && (itemstack.isEmpty() || itemstack.is(infinityArrow.get()))) itemstack = new ItemStack(infinityArrow.get());
                     if(itemstack.isEmpty()) return;
                     List<ItemStack> list = draw(stack, itemstack, player);
-                    if(!list.isEmpty()) shoot(server, player, player.getUsedItemHand(), stack, list, f * 3F * speedScale, 1, f == 1, null);
+                    if(!list.isEmpty()) shoot(server, player, player.getUsedItemHand(), stack, list, f * 3F * speedScale, 8, f == 1, null);
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegistry.INFERNO_BOW_SHOOT.get(), PLAYERS, 1, 1 / (level.getRandom().nextFloat() * .4F + 1.2F) + f * .5F);
                     player.awardStat(ITEM_USED.get(this));
                 } else if(entity instanceof LivingEntity living) {
-                    shoot(server, living, living.getUsedItemHand(), stack, List.of(new ItemStack(inferno_arrow.get())), f * 3F * speedScale, 1, f == 1, living instanceof Mob mob ? mob.getTarget() : null);
+                    shoot(server, living, living.getUsedItemHand(), stack, List.of(new ItemStack(inferno_arrow.get())), f * 3F * speedScale, 8, f == 1, living instanceof Mob mob ? mob.getTarget() : null);
                     living.playSound(SoundRegistry.INFERNO_BOW_SHOOT.get(), 1, 1 / (level.getRandom().nextFloat() * .4F + .8F));
                 }
             }
@@ -78,8 +79,8 @@ public class InfernoBow extends ItemBow {
     }
     @Override public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int remainingUseDuration) {
         if(remainingUseDuration == useDuration) {
-            level.playSound(null, entity.getX(), entity.getEyeY(), entity.getZ(), CAMPFIRE_CRACKLE, entity.getSoundSource(), 1, 1);
-            level.playSound(null, entity.getX(), entity.getEyeY(), entity.getZ(), SoundRegistry.INFERNO_BOW_CHARGE.get(), entity.getSoundSource(), 1, 1);
+            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), CAMPFIRE_CRACKLE, entity.getSoundSource(), 1, 1);
+            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.INFERNO_BOW_CHARGE.get(), entity.getSoundSource(), 1, 1);
         }
     }
 }

@@ -1,29 +1,20 @@
 {
-  "parent": "minecraft:recipes/root",
+  "parent": "recipes/root",
   "criteria": {
     "has_lava": {
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:lava_bucket"
-            ]
+            "items": "#c:buckets/lava"
           }
         ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "divinerpg:shaped/draken_lamp"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+      }
     }
   },
   "requirements": [
     [
-      "has_lava",
-      "has_the_recipe"
+      "has_lava"
     ]
   ],
   "rewards": {

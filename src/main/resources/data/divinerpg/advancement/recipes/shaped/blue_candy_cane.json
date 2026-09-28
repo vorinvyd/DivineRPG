@@ -1,0 +1,25 @@
+{
+  "parent": "recipes/root",
+  "criteria": {
+    "has_peppermints": {
+      "trigger": "inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "divinerpg:peppermints"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_peppermints"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "divinerpg:shaped/blue_candy_cane"
+    ]
+  }
+}

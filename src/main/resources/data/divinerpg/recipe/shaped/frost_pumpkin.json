@@ -8,9 +8,14 @@
     "BSB"
   ],
   "key": {
-    "P": {
-      "item": "pumpkin"
-    },
+    "P": [
+      {
+        "tag": "c:pumpkins/normal"
+      },
+      {
+        "tag": "c:pumpkins/carved"
+      }
+    ],
     "S": {
       "item": "divinerpg:ice_shards"
     },

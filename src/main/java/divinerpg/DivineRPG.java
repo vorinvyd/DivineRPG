@@ -20,7 +20,6 @@ import org.apache.logging.log4j.*;
 public class DivineRPG {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "divinerpg";
-
     public DivineRPG(IEventBus bus, ModContainer container) {
         BlockRegistry.BLOCKS.register(bus);
         DataComponentRegistry.DATA_COMPONENTS.register(bus);
@@ -32,7 +31,7 @@ public class DivineRPG {
         MenuTypeRegistry.MENU_TYPE.register(bus);
         EntityRegistry.ENTITIES.register(bus);
         ParticleRegistry.PARTICLES.register(bus);
-        RecipeRegistry.Serailizers.SERIALIZER.register(bus);
+        RecipeRegistry.Serializers.SERIALIZER.register(bus);
         SoundRegistry.SOUNDS.register(bus);
         SoundRegistry.SONGS.register(bus);
         DamageRegistry.DAMAGE_TYPE.register(bus);
@@ -48,6 +47,8 @@ public class DivineRPG {
         AttachmentRegistry.ATTACHMENT_TYPES.register(bus);
         PlacementModifierRegistry.PLACEMENT_MODIFIER.register(bus);
         PlacementModifierRegistry.DENSITY_FUNCTION.register(bus);
+        TrunkPlacerRegistry.TRUNK_PLACERS.register(bus);
+        FoliagePlacerRegistry.FOLIAGE_PLACERS.register(bus);
         EventRegistry.init();
         NeoForge.EVENT_BUS.addListener(SpawnEvents::spawnPlacementCheck);
         bus.addListener(this::setup);
@@ -74,15 +75,14 @@ public class DivineRPG {
     }
     private void client(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            ModelPropRegistry.init();
             BlockEntityRegistry.renderTiles();
             NeoForge.EVENT_BUS.register(new BossBarRenderer());
             NeoForge.EVENT_BUS.register(new EventClientLogin());
             NeoForge.EVENT_BUS.register(new ClientSidedExtraEvents.MusicEvent());
+            NeoForge.EVENT_BUS.register(new Tooltips());
             Utils.loadHatInformation();
             ItemPropertyRegistry.registerProperties();
         });
     }
-    private void post(final FMLLoadCompleteEvent event){
-    }
+    private void post(final FMLLoadCompleteEvent event){}
 }

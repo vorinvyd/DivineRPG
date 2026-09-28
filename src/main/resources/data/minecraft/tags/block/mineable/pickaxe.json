@@ -1,7 +1,7 @@
 {
   "values": [
     "#divinerpg:dirts/scorched",
-    "#divinerpg:crying_obsidians",
+    "#divinerpg:obsidians/crying",
     "#divinerpg:ores/realmite",
     "#divinerpg:ores/arlemite",
     "#divinerpg:ores/rupee",
@@ -37,8 +37,8 @@
     "#divinerpg:colored_bricks",
     "#divinerpg:minibricks",
     "#divinerpg:twilight_bricks",
-    "#divinerpg:metal_lamps",
-    "#divinerpg:steel",
+    "#divinerpg:lamps/metal",
+    "#divinerpg:storage_blocks/steel",
     "divinerpg:steel_door",
     "#divinerpg:spawners",
     "#divinerpg:furnaces",
@@ -50,6 +50,7 @@
     "divinerpg:olivine_block",
     "divinerpg:budding_olivine",
     "divinerpg:olivine_cluster",
+    "divinerpg:budding_dravite",
     "divinerpg:icicle",
     "divinerpg:icy_stone",
     "divinerpg:icy_bricks",
@@ -58,6 +59,14 @@
     "divinerpg:frosted_allure",
     "divinerpg:snow_bricks",
     "divinerpg:glaciline",
+    {
+      "id": "divinerpg:frozen_gravel_bricks",
+      "required": false
+    },
+    {
+      "id": "divinerpg:suspicious_frozen_gravel_bricks",
+      "required": false
+    },
     "divinerpg:frozen_stone",
     "divinerpg:frozen_stairs",
     "divinerpg:frozen_slab",
@@ -128,6 +137,7 @@
     "divinerpg:twilight_brick_stairs",
     "divinerpg:twilight_brick_slab",
     "divinerpg:twilight_brick_pressure_plate",
+    "divinerpg:milk_stone",
     "divinerpg:scorchalt",
     "divinerpg:scorchalt_stairs",
     "divinerpg:scorchalt_slab",
@@ -151,7 +161,7 @@
     "divinerpg:polished_ray_stone_slab",
     "divinerpg:polished_ray_stone_pressure_plate",
     "divinerpg:draught_stone",
-    "divinerpg:milk_stone",
+    "divinerpg:duncap",
     "divinerpg:dream_stone",
     "divinerpg:luna_stone",
     "divinerpg:luna_bricks",

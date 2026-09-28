@@ -1,34 +1,31 @@
 {
   "parent": "recipes/root",
   "criteria": {
-    "has_jungle_stone": {
+    "has_gemstone": {
+      "trigger": "inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": [
-              "divinerpg:jungle_stone"
-            ]
+            "items": "#divinerpg:gems/jungle"
           }
         ]
-      },
-      "trigger": "inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "divinerpg:shaped/jungle_hook"
-      },
-      "trigger": "recipe_unlocked"
+      }
     }
   },
   "requirements": [
     [
-      "has_jungle_stone",
-      "has_the_recipe"
+      "has_gemstone"
     ]
   ],
   "rewards": {
     "recipes": [
       "divinerpg:shaped/jungle_hook"
     ]
-  }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:tag_empty",
+      "tag": "c:ropes"
+    }
+  ]
 }

@@ -36,7 +36,6 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
         this.healthIncrease = healthIncrease;
         setTame(false, false);
     }
-    public boolean isMeat(ItemStack stack) {return stack.is(ItemTags.MEAT);}
     @Override protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new FloatGoal(this));
@@ -59,31 +58,32 @@ public class EntityDivineTameable extends TamableAnimal implements NeutralMob {
         if(isInvulnerableTo(source)) return false;
         else {
             Entity entity = source.getEntity();
-            if(!level().isClientSide()) setOrderedToSit(false);
+            if(!level().isClientSide) setOrderedToSit(false);
             if(entity != null && !(entity instanceof Player) && !(entity instanceof AbstractArrow)) amount = (amount + 1) / 2;
             return super.hurt(source, amount);
         }
     }
-    @Override public void setTame(boolean tamed, boolean applyTamingSideEffects) {
-        super.setTame(tamed, applyTamingSideEffects);
+    @Override protected void applyTamingSideEffects() {
         if(isTame()) {
-            AttributeInstance attribute = getAttribute(Attributes.MAX_HEALTH);
-            attribute.setBaseValue(attribute.getValue() * healthIncrease);
-        }
+            getAttribute(Attributes.MAX_HEALTH).setBaseValue(getMaxHealth() * healthIncrease);
+            setHealth(getMaxHealth());
+        } else getAttribute(Attributes.MAX_HEALTH).setBaseValue(getMaxHealth());
     }
     @Override public void aiStep() {
         super.aiStep();
-        if(!level().isClientSide()) updatePersistentAnger((ServerLevel) level(), true);
+        if(!level().isClientSide) updatePersistentAnger((ServerLevel) level(), true);
     }
     @Override public void onAddedToLevel() {
         super.onAddedToLevel();
-        if(level().isClientSide()) {
+        if(level().isClientSide) {
             AttachmentRegistry.COLOR.requestAttachment(this, null);
             AttachmentRegistry.ANGRY.requestAttachment(this, null);
         }
     }
     public DyeColor getCollarColor() {return DyeColor.byId(AttachmentRegistry.COLOR.get(this));}
     public void setCollarColor(DyeColor color) {AttachmentRegistry.COLOR.set(this, color.getId());}
+    public boolean isMeat(ItemStack stack) {return stack.is(ItemTags.MEAT);}
+    //Default food & taming food
     @Override public boolean isFood(ItemStack item) {return isMeat(item);}
     protected boolean isTamingFood(ItemStack item) {return isMeat(item);}
     @Override public InteractionResult mobInteract(Player player, InteractionHand hand) {
